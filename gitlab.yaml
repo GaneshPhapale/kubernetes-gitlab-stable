@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitlab
+  labels:
+    app: gitlab
+spec:
+  selector:
+    matchLabels: 
+      app: gitlab
+
+  template:
+    metadata:
+      labels:
+        app: gitlab
+    spec:
+      containers:
+        - image: gitlab/gitlab-ce:9.1.0-ce.0
+          name: gitlab
+          env:
+           - name: ROOT_PASSWORD
+             value: redhat
+           - name: GITLAB_HOST
+             value: git.example.com
+           - name: DB_TYPE
+             value: postgres
+           - name: DB_ADAPTER
+             value: postgresql
+           - name: DB_USERNAME
+             value: root
+           - name: DB_PASSWORD
+             value: redhat
+           - name: DB_HOST
+             value: postgresql1
+           - name: DB_PORT
+             value: '5432'
+           - name: DB_NAME
+             value: postgresqldb
+           
+          ports:
+            - containerPort: 80
+              name: gitlab
+            - containerPort: 22
+              name: gitlab-ssh
+      
+
